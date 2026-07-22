@@ -1,0 +1,2 @@
+# Architecture
+Kernel -> Runtime -> Plugins
