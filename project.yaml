@@ -1,0 +1,9 @@
+name: my-project
+version: 0.1.0
+description: Enterprise AI Builder project
+
+workflow: workflows/main.yaml
+
+llm:
+  provider: openai
+  model: gpt-5.5

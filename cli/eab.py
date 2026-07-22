@@ -1,18 +1,16 @@
-#!/usr/bin/env python3
-"""
-Enterprise AI Builder (EAB)
-CLI v0.4.0
-"""
+from pathlib import Path
 
 import typer
 from rich import print
 
-from builder.project import create_project
-
-VERSION = "0.4.0"
+from builder.project import (
+    create_project,
+    load_project,
+    load_workflow,
+)
+from runtime.engine import RuntimeEngine
 
 app = typer.Typer(
-    name="eab",
     help="Enterprise AI Builder CLI",
     no_args_is_help=True,
 )
@@ -21,33 +19,42 @@ app = typer.Typer(
 @app.command()
 def version():
     """Show Enterprise AI Builder version."""
-    print(f"[green]Enterprise AI Builder[/green] v{VERSION}")
+    print("[green]Enterprise AI Builder v0.1.0[/green]")
 
 
 @app.command()
-def init(
-    name: str = typer.Argument(..., help="Project name"),
-):
+def init(path: str = "."):
     """Create a new Enterprise AI Builder project."""
-
-    try:
-        create_project(name)
-        print(f"[green]✓ Project '{name}' created successfully![/green]")
-    except FileExistsError as exc:
-        print(f"[red]Error:[/red] {exc}")
-        raise typer.Exit(code=1)
+    create_project(path)
+    print(f"[green]Project initialized:[/green] {path}")
 
 
 @app.command()
 def validate():
     """Validate the current project."""
-    print("[yellow]Validation is not implemented yet.[/yellow]")
+    print("[yellow]Validate command is not implemented yet.[/yellow]")
 
 
 @app.command()
 def build():
     """Build the current project."""
-    print("[yellow]Build is not implemented yet.[/yellow]")
+    print("[yellow]Build command is not implemented yet.[/yellow]")
+
+
+@app.command()
+def run():
+    """Run the current project workflow."""
+
+    project = load_project()
+
+    workflow_path = Path(project["workflow"])
+    workflow = load_workflow(workflow_path)
+
+    print("[cyan]Enterprise AI Builder[/cyan]")
+    print(f"[green]Project:[/green] {project['name']}")
+    print()
+
+    RuntimeEngine(project).run(workflow)
 
 
 def main():
