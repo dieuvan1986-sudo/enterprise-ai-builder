@@ -11,6 +11,7 @@ class ShopeeSignalMapper:
     Convert Shopee market signals into normalized Product scores.
 
     All OpportunityEngine inputs use a 0-10 scale.
+    Data confidence represents how complete the observed source data is.
     """
 
     def map(self, signal: ShopeeProductSignal) -> Product:
@@ -28,11 +29,11 @@ class ShopeeSignalMapper:
                 signal.sold_count,
                 signal.rating,
             ),
+            data_confidence=self._data_confidence(signal),
         )
 
     @staticmethod
     def _commission_score(rate: float) -> float:
-        # 20%+ affiliate commission receives the maximum score.
         return min(max(rate / 2.0, 0.0), 10.0)
 
     @staticmethod
@@ -93,10 +94,6 @@ class ShopeeSignalMapper:
     def _competition_score(
         creator_count: int | None,
     ) -> float:
-        """
-        Higher score means stronger competition.
-        """
-
         if creator_count is None:
             return 5.0
 
@@ -117,14 +114,6 @@ class ShopeeSignalMapper:
 
     @staticmethod
     def _video_score(signal: ShopeeProductSignal) -> float:
-        """
-        Temporary MVP heuristic.
-
-        Products with strong demand and recent sales growth are assumed
-        to have better content potential until direct video-performance
-        signals are collected.
-        """
-
         score = 5.0
 
         if signal.sales_growth_7d is not None:
@@ -138,3 +127,32 @@ class ShopeeSignalMapper:
                 score += 1.0
 
         return min(score, 10.0)
+
+    @staticmethod
+    def _data_confidence(signal: ShopeeProductSignal) -> float:
+        """
+        Measure completeness of the observed Shopee signal.
+
+        Core fields are always available:
+        name, category, price and commission.
+
+        Optional market signals contribute to confidence:
+        - sold_count
+        - sales_growth_7d
+        - rating
+        - creator_count
+        """
+
+        optional_signals = (
+            signal.sold_count,
+            signal.sales_growth_7d,
+            signal.rating,
+            signal.creator_count,
+        )
+
+        available = sum(
+            value is not None
+            for value in optional_signals
+        )
+
+        return round(available / len(optional_signals), 2)
