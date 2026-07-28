@@ -5,13 +5,18 @@ from applications.ai_money_factory.collectors.shopee_collector import (
     ShopeeCollector,
     ShopeeProductSignal,
 )
+from applications.ai_money_factory.core.daily_brief_formatter import (
+    DailyBriefFormatter,
+)
 from applications.ai_money_factory.core.daily_mission_service import (
     DailyMissionService,
 )
+from applications.ai_money_factory.core.openclaw_telegram_sender import (
+    OpenClawTelegramSender,
+)
 
 
-def main() -> None:
-    registry = CollectorRegistry()
+def build_shopee_collector() -> ShopeeCollector:
     shopee = ShopeeCollector()
 
     products = [
@@ -58,36 +63,26 @@ def main() -> None:
     for product in products:
         shopee.add_product(product)
 
-    registry.register(shopee)
+    return shopee
 
-    service = DailyMissionService(registry)
-    mission = service.generate()
 
-    print("=== MON HAY 365 - DAILY MISSION ===")
-    print(f"Products analyzed: {mission.total_products}")
+def main() -> None:
+    registry = CollectorRegistry()
+    registry.register(build_shopee_collector())
+
+    mission_service = DailyMissionService(registry)
+    mission = mission_service.generate()
+
+    formatter = DailyBriefFormatter()
+    brief = formatter.format(mission)
+
+    print(brief)
+
+    sender = OpenClawTelegramSender()
+    sender.send(brief)
+
     print()
-
-    for rank, opportunity in enumerate(
-        mission.top_products,
-        start=1,
-    ):
-        product = opportunity.product
-
-        print(f"#{rank} {product.name}")
-        print(f"  Price:     {product.price:,.0f} VND")
-        print(f"  Win Score: {opportunity.win_score}/10")
-        print(f"  Priority:   {opportunity.priority}")
-        print(f"  Confidence: {opportunity.confidence}")
-        print(f"  Action:     {opportunity.action}")
-        print(
-            "  Reasons:   "
-            + (
-                ", ".join(opportunity.reasons)
-                if opportunity.reasons
-                else "None"
-            )
-        )
-        print()
+    print("Daily Mission delivered to Telegram successfully.")
 
 
 if __name__ == "__main__":
