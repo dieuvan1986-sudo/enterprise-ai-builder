@@ -8,7 +8,9 @@ from builder.project import (
     load_project,
     load_workflow,
 )
+from compiler.loader import parse_workflow
 from runtime.engine import RuntimeEngine
+from validator.workflow_validator import WorkflowValidator
 
 app = typer.Typer(
     help="Enterprise AI Builder CLI",
@@ -48,7 +50,11 @@ def run():
     project = load_project()
 
     workflow_path = Path(project["workflow"])
-    workflow = load_workflow(workflow_path)
+
+    workflow_data = load_workflow(workflow_path)
+    workflow = parse_workflow(workflow_data)
+
+    WorkflowValidator().validate(workflow)
 
     print("[cyan]Enterprise AI Builder[/cyan]")
     print(f"[green]Project:[/green] {project['name']}")

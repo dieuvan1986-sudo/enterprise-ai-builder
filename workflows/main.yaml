@@ -3,4 +3,4 @@ name: main
 steps:
   - id: welcome
     action: message
-    text: "Welcome to Enterprise AI Builder!"
+    text: "Hello {{user}}!"

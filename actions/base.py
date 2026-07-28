@@ -11,6 +11,15 @@ class Action(ABC):
     #: Unique action name used inside workflow YAML.
     name: str = ""
 
+    #: Human-readable description.
+    description: str = ""
+
+    #: Required parameters for this action.
+    required_params: list[str] = []
+
+    #: Optional parameters for this action.
+    optional_params: list[str] = []
+
     @abstractmethod
     def execute(
         self,
