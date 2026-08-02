@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List
 
 
@@ -13,6 +13,21 @@ class Product:
     video_score: float
     demand_score: float
     data_confidence: float = 1.0
+
+    # Facts that are allowed to be used in consumer-facing content.
+    # These must come from verified product information, not AI inference.
+    verified_facts: List[str] = field(default_factory=list)
+
+    # Visual facts explicitly verified from official product images,
+    # packaging, seller materials, or other approved evidence.
+    # Creative AI may depict only visual uses supported by this list.
+    verified_visual_facts: List[str] = field(default_factory=list)
+
+    # Human-readable provenance for fact checking.
+    fact_source: str | None = None
+
+    # Price is volatile. True only when recently checked.
+    price_verified: bool = False
 
 
 @dataclass
