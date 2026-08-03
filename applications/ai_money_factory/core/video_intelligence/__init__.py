@@ -15,6 +15,9 @@ from applications.ai_money_factory.core.video_intelligence.scene_scoring import 
 from applications.ai_money_factory.core.video_intelligence.timeline_selection import (
     TimelineSelectionEngine,
 )
+from applications.ai_money_factory.core.video_intelligence.timeline_optimization import (
+    TimelineOptimizationEngine,
+)
 
 __all__ = [
     "DetectedScene",
@@ -24,6 +27,7 @@ __all__ = [
     "SceneDetectionError",
     "SceneDetectionSettings",
     "SceneScoringEngine",
+    "TimelineOptimizationEngine",
     "TimelineSelectionEngine",
     "SourceVideo",
 ]

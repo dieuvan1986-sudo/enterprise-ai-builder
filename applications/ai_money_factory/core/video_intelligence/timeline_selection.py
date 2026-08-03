@@ -70,10 +70,13 @@ class TimelineSelectionEngine:
                     output_start_seconds=output_start,
                     output_end_seconds=output_end,
                     duration_seconds=duration,
+                    target_duration_seconds=duration,
                     purpose=purpose,
                     score=scored_scene.score,
                     watermark=str(review_row["watermark"]),
                     subtitle_safe_zone=str(review_row["subtitle_safe_zone"]),
+                    requires_crop=review_row["watermark"] == "croppable",
+                    confidence=1.0,
                 )
             )
             used_scene_numbers.add(scored_scene.scene_number)

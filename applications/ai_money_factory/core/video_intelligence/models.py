@@ -56,7 +56,10 @@ class SelectedTimelineClip:
     output_start_seconds: float
     output_end_seconds: float
     duration_seconds: float
+    target_duration_seconds: float
     purpose: str
     score: float
     watermark: str
     subtitle_safe_zone: str
+    requires_crop: bool
+    confidence: float
