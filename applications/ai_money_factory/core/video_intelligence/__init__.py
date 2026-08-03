@@ -4,6 +4,7 @@ from applications.ai_money_factory.core.video_intelligence.models import (
     ScoredScene,
     SelectedTimelineClip,
     SourceVideo,
+    VoiceSegmentPlan,
 )
 from applications.ai_money_factory.core.video_intelligence.narrative_engine import (
     NarrativeEngine,
@@ -22,6 +23,9 @@ from applications.ai_money_factory.core.video_intelligence.timeline_optimization
 from applications.ai_money_factory.core.video_intelligence.timeline_selection import (
     TimelineSelectionEngine,
 )
+from applications.ai_money_factory.core.video_intelligence.voice_planner import (
+    VoicePlanner,
+)
 
 __all__ = [
     "DetectedScene",
@@ -36,4 +40,6 @@ __all__ = [
     "SourceVideo",
     "TimelineOptimizationEngine",
     "TimelineSelectionEngine",
+    "VoicePlanner",
+    "VoiceSegmentPlan",
 ]

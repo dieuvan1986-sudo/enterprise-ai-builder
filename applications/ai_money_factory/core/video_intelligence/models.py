@@ -83,3 +83,27 @@ class NarrativeBeat:
     subtitle_emphasis: str
     transition_style: str
     confidence: float
+
+
+@dataclass(slots=True)
+class VoiceSegmentPlan:
+    """
+    Deterministic voice plan for one narrative beat.
+    """
+
+    scene_number: int
+    purpose: str
+    start_seconds: float
+    end_seconds: float
+    duration_seconds: float
+    language: str
+    gender: str
+    accent: str
+    voice_id: str
+    speech_rate: float
+    pause_before_seconds: float
+    pause_after_seconds: float
+    max_words: int
+    energy: str
+    narration_intent: str
+    confidence: float
