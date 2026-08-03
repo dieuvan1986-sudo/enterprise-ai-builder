@@ -41,3 +41,22 @@ class ScoredScene:
     eligible: bool
     purposes: list[str]
     rejection_reasons: list[str]
+
+
+@dataclass(slots=True)
+class SelectedTimelineClip:
+    """
+    Planned output clip selected from a source scene.
+    """
+
+    scene_number: int
+    source_path: Path
+    source_start_seconds: float
+    source_end_seconds: float
+    output_start_seconds: float
+    output_end_seconds: float
+    duration_seconds: float
+    purpose: str
+    score: float
+    watermark: str
+    subtitle_safe_zone: str
