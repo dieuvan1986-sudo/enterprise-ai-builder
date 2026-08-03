@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from pathlib import Path
 
 
 @dataclass(slots=True)
@@ -62,3 +63,74 @@ class VideoMission:
     caption: str = ""
     hashtags: list[str] = field(default_factory=list)
     affiliate_url: str | None = None
+
+
+@dataclass(slots=True)
+class NarrationSegment:
+    """
+    One timed narration segment for a short-form video.
+    """
+
+    scene_number: int
+    duration_seconds: float
+    text: str
+    purpose: str = ""
+
+
+@dataclass(slots=True)
+class Narration:
+    """
+    Complete narration plan before voice audio is rendered.
+    """
+
+    title: str
+    segments: list[NarrationSegment]
+    total_duration_seconds: float | None = None
+
+
+@dataclass(slots=True)
+class VoiceTrackSegment:
+    """
+    One rendered voice segment with timing metadata.
+    """
+
+    scene_number: int
+    duration_seconds: float
+    narration: str
+    purpose: str = ""
+    audio_path: Path | None = None
+
+
+@dataclass(slots=True)
+class VoiceTrack:
+    """
+    Rendered voice track that can be aligned with subtitles.
+    """
+
+    title: str
+    segments: list[VoiceTrackSegment]
+    total_duration_seconds: float | None = None
+
+
+@dataclass(slots=True)
+class SubtitleCue:
+    """
+    One timed subtitle cue.
+    """
+
+    scene_number: int
+    cue_number: int
+    start_seconds: float
+    end_seconds: float
+    text: str
+
+
+@dataclass(slots=True)
+class SubtitleTrack:
+    """
+    Complete subtitle track for downstream video composition.
+    """
+
+    title: str
+    total_duration_seconds: float
+    cues: list[SubtitleCue]
