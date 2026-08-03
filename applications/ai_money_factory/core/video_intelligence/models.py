@@ -63,3 +63,23 @@ class SelectedTimelineClip:
     subtitle_safe_zone: str
     requires_crop: bool
     confidence: float
+
+
+@dataclass(slots=True)
+class NarrativeBeat:
+    """
+    Semantic narrative plan for one selected timeline clip.
+    """
+
+    scene_number: int
+    purpose: str
+    output_start_seconds: float
+    output_end_seconds: float
+    target_duration_seconds: float
+    emotion: str
+    narration_intent: str
+    pacing: str
+    voice_energy: str
+    subtitle_emphasis: str
+    transition_style: str
+    confidence: float
