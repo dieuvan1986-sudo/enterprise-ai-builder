@@ -28,3 +28,16 @@ class DetectedScene:
     start_seconds: float
     end_seconds: float
     duration_seconds: float
+
+
+@dataclass(slots=True)
+class ScoredScene:
+    """
+    Rule-based review score for a detected scene.
+    """
+
+    scene_number: int
+    score: float
+    eligible: bool
+    purposes: list[str]
+    rejection_reasons: list[str]
