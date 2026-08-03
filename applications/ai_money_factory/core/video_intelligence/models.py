@@ -107,3 +107,26 @@ class VoiceSegmentPlan:
     energy: str
     narration_intent: str
     confidence: float
+
+
+@dataclass(slots=True)
+class SubtitleSegmentPlan:
+    """
+    Deterministic subtitle layout plan for one voice segment.
+    """
+
+    scene_number: int
+    purpose: str
+    start_seconds: float
+    end_seconds: float
+    duration_seconds: float
+    safe_zone: str
+    anchor: str
+    max_chars_per_line: int
+    max_lines: int
+    font_scale: float
+    emphasis: str
+    animation_hint: str
+    background_style: str
+    avoid_center_subject: bool
+    confidence: float
