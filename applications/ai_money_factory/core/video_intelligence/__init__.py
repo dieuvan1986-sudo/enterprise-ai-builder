@@ -1,4 +1,6 @@
 from applications.ai_money_factory.core.video_intelligence.models import (
+    CompositionPlan,
+    CompositionSegmentPlan,
     DetectedScene,
     NarrativeBeat,
     ScoredScene,
@@ -6,6 +8,9 @@ from applications.ai_money_factory.core.video_intelligence.models import (
     SourceVideo,
     SubtitleSegmentPlan,
     VoiceSegmentPlan,
+)
+from applications.ai_money_factory.core.video_intelligence.composition_planner import (
+    CompositionPlanner,
 )
 from applications.ai_money_factory.core.video_intelligence.narrative_engine import (
     NarrativeEngine,
@@ -32,6 +37,9 @@ from applications.ai_money_factory.core.video_intelligence.voice_planner import 
 )
 
 __all__ = [
+    "CompositionPlan",
+    "CompositionPlanner",
+    "CompositionSegmentPlan",
     "DetectedScene",
     "NarrativeBeat",
     "NarrativeEngine",

@@ -130,3 +130,54 @@ class SubtitleSegmentPlan:
     background_style: str
     avoid_center_subject: bool
     confidence: float
+
+
+@dataclass(slots=True)
+class CompositionSegmentPlan:
+    """
+    Deterministic composition readiness plan for one timeline segment.
+    """
+
+    scene_number: int
+    purpose: str
+    source_path: Path
+    source_start_seconds: float
+    source_end_seconds: float
+    output_start_seconds: float
+    output_end_seconds: float
+    duration_seconds: float
+    target_duration_seconds: float
+    voice_start_seconds: float
+    voice_end_seconds: float
+    subtitle_start_seconds: float
+    subtitle_end_seconds: float
+    language: str
+    gender: str
+    accent: str
+    voice_id: str
+    subtitle_anchor: str
+    subtitle_max_lines: int
+    watermark: str
+    crop_required: bool
+    render_ready: bool
+    blocking_reasons: list[str]
+    confidence: float
+
+
+@dataclass(slots=True)
+class CompositionPlan:
+    """
+    Deterministic composition plan for a vertical short-form video.
+    """
+
+    segments: list[CompositionSegmentPlan]
+    total_duration_seconds: float
+    render_ready: bool
+    blocking_reasons: list[str]
+    target_width: int
+    target_height: int
+    fps: int
+    video_codec: str
+    audio_codec: str
+    pixel_format: str
+    confidence: float
